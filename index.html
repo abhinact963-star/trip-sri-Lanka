@@ -19,31 +19,59 @@
 --radius:16px;--radius-lg:24px;--radius-xl:32px;
 }
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:none}
 ::selection{background:var(--gold);color:var(--bg)}
+
+/* CUSTOM CURSOR */
+.cursor{position:fixed;top:0;left:0;width:20px;height:20px;border:2px solid var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transition:transform .15s ease,width .2s,height .2s,border-color .2s;transform:translate(-50%,-50%)}
+.cursor.hover{width:50px;height:50px;border-color:var(--green);background:rgba(45,212,160,.08)}
+.cursor-dot{position:fixed;top:0;left:0;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .08s}
+.cursor-label{position:fixed;pointer-events:none;z-index:9999;font-size:.65rem;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:600;opacity:0;transition:opacity .2s;transform:translate(16px,-50%)}
+.cursor-label.show{opacity:1}
+
+/* SCROLL PROGRESS */
+.scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--green),var(--gold));z-index:10000;transition:width .1s linear;border-radius:0 2px 2px 0}
 
 /* ANIMATIONS */
 @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 @keyframes glow{0%,100%{opacity:.4}50%{opacity:1}}
 @keyframes shimmer{0%{left:-100%}100%{left:100%}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes scaleIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 @keyframes blob{0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}50%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse-ring{0%{transform:scale(1);opacity:1}100%{transform:scale(1.8);opacity:0}}
 
 /* NAV */
-.nav{position:fixed;top:0;left:0;right:0;z-index:999;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
+.nav{position:fixed;top:3px;left:0;right:0;z-index:999;padding:20px 32px;display:flex;align-items:center;justify-content:space-between;transition:all .4s}
 .nav.scrolled{background:rgba(10,10,10,.85);backdrop-filter:blur(20px) saturate(180%);border-bottom:1px solid rgba(255,255,255,.05)}
-.nav-logo{font-family:var(--serif);font-size:1.4rem;color:var(--text);text-decoration:none;font-weight:700}
+.nav-logo{font-family:var(--serif);font-size:1.4rem;color:var(--text);text-decoration:none;font-weight:700;cursor:none}
 .nav-logo span{color:var(--gold)}
 .nav-pills{display:flex;gap:4px;background:var(--bg2);border-radius:100px;padding:4px;border:1px solid rgba(255,255,255,.06)}
-.nav-pills a{color:var(--text2);text-decoration:none;font-size:.78rem;font-weight:500;padding:8px 16px;border-radius:100px;transition:all .3s;letter-spacing:.3px}
+.nav-pills a{color:var(--text2);text-decoration:none;font-size:.78rem;font-weight:500;padding:8px 16px;border-radius:100px;transition:all .3s;letter-spacing:.3px;cursor:none}
 .nav-pills a:hover,.nav-pills a.active{color:var(--text);background:var(--bg3)}
 
-/* HERO - CINEMATIC */
+/* SHARE BUTTON */
+.share-btn{position:fixed;bottom:100px;right:24px;z-index:998;width:48px;height:48px;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;transition:all .3s;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.share-btn:hover{background:var(--gold);border-color:var(--gold);transform:scale(1.1)}
+.share-btn svg{width:20px;height:20px;stroke:var(--text2);fill:none;stroke-width:2;transition:stroke .3s}
+.share-btn:hover svg{stroke:var(--bg)}
+
+/* AUDIO TOGGLE */
+.audio-btn{position:fixed;bottom:160px;right:24px;z-index:998;width:48px;height:48px;background:var(--card);border:1px solid rgba(255,255,255,.08);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;transition:all .3s;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.audio-btn:hover{background:var(--gold);border-color:var(--gold);transform:scale(1.1)}
+.audio-btn svg{width:20px;height:20px;stroke:var(--text2);fill:none;stroke-width:2;transition:stroke .3s}
+.audio-btn:hover svg{stroke:var(--bg)}
+.audio-btn.playing{background:var(--green);border-color:var(--green)}
+.audio-btn.playing svg{stroke:var(--bg)}
+.share-toast{position:fixed;bottom:160px;right:24px;z-index:998;padding:10px 18px;background:var(--green);color:var(--bg);font-size:.78rem;font-weight:600;border-radius:100px;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
+.share-toast.show{opacity:1;transform:translateY(0)}
+
+/* HERO - VIDEO */
 .hero{height:100vh;position:relative;display:flex;align-items:flex-end;overflow:hidden}
-.hero-bg{position:absolute;inset:0;background:url('hero.jpg') center/cover;filter:brightness(.4) saturate(1.2)}
+.hero-video{position:absolute;inset:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero-video video{width:100%;height:100%;object-fit:cover;filter:brightness(.35) saturate(1.2)}
+.hero-video-visible{position:relative;z-index:3;width:100%;max-width:800px;margin:0 auto;padding:0 48px;display:flex;justify-content:center}
+.hero-video-visible video{width:100%;border-radius:var(--radius-lg);box-shadow:0 20px 60px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.08);transform:rotate(-90deg)}
 .hero-grain{position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.03'/%3E%3C/svg%3E");pointer-events:none}
 .hero-gradient{position:absolute;inset:0;background:linear-gradient(0deg,var(--bg) 0%,transparent 40%,rgba(10,10,10,.3) 100%)}
 .hero-blob{position:absolute;top:20%;right:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(226,179,64,.08),transparent 70%);animation:blob 12s ease-in-out infinite;pointer-events:none}
@@ -54,7 +82,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:h
 .hero-title .accent{color:var(--gold)}
 .hero-sub{font-size:1.1rem;color:var(--text2);max-width:480px;line-height:1.8;font-weight:300;margin-bottom:32px}
 .hero-chips{display:flex;gap:12px;flex-wrap:wrap}
-.hero-chip{padding:10px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:100px;font-size:.8rem;color:var(--text2);font-weight:400;transition:all .3s}
+.hero-chip{padding:10px 20px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:100px;font-size:.8rem;color:var(--text2);font-weight:400;transition:all .3s;cursor:none}
 .hero-chip:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
 
 /* TICKER */
@@ -63,7 +91,7 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:h
 .ticker-item{white-space:nowrap;padding:0 40px;font-size:.8rem;color:var(--text3);font-weight:400;letter-spacing:1px;text-transform:uppercase;display:flex;align-items:center;gap:12px}
 .ticker-item .dot{width:4px;height:4px;background:var(--gold);border-radius:50%}
 
-/* COUNTDOWN - FULL WIDTH DARK */
+/* COUNTDOWN */
 .countdown{padding:100px 48px;position:relative;overflow:hidden}
 .countdown-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,var(--green-dim),transparent 50%),radial-gradient(ellipse at 80% 50%,var(--gold-dim),transparent 50%)}
 .countdown-inner{max-width:800px;margin:0 auto;text-align:center;position:relative;z-index:2}
@@ -81,132 +109,49 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:h
 .cd-bar{height:3px;background:var(--bg3);border-radius:3px;overflow:hidden;margin-bottom:10px}
 .cd-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--green),var(--gold));transition:width .8s}
 .cd-text{font-size:.75rem;color:var(--text3)}
-
-/* BENTO ITINERARY */
-.itinerary{padding:100px 48px;max-width:1100px;margin:0 auto}
-.section-header{margin-bottom:48px}
-.section-header .label{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px}
-.section-header h2{font-family:var(--serif);font-size:2.8rem;font-weight:700;letter-spacing:-1px}
-.section-header p{color:var(--text2);font-size:.95rem;margin-top:8px}
-
-.days-stack{display:flex;flex-direction:column;gap:20px}
-.day-card{display:grid;grid-template-columns:1fr 1fr;min-height:420px;border-radius:var(--radius-xl);overflow:hidden;background:var(--card);border:1px solid rgba(255,255,255,.06);transition:all .5s cubic-bezier(.4,0,.2,1);position:relative}
-.day-card:hover{border-color:rgba(226,179,64,.12);box-shadow:0 20px 60px rgba(0,0,0,.3);transform:translateY(-4px)}
-.day-card:nth-child(even){direction:rtl}
-.day-card:nth-child(even)>*{direction:ltr}
-.day-card .day-image{position:relative;overflow:hidden}
-.day-card .day-image img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.4,0,.2,1)}
-.day-card:hover .day-image img{transform:scale(1.05)}
-.day-card .day-image::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,10,10,.2),transparent);pointer-events:none}
-.day-card .day-content{padding:48px 44px;display:flex;flex-direction:column;justify-content:center}
-.day-card .day-number{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:16px}
-.day-card .day-number::before{content:'';width:24px;height:1px;background:var(--gold)}
-.day-card .day-title{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:16px;line-height:1.2}
-.day-card .day-desc{font-size:.92rem;color:var(--text2);line-height:1.9;margin-bottom:24px}
-.day-card .day-tags{display:flex;flex-wrap:wrap;gap:8px}
-.day-card .day-tags span{font-size:.72rem;padding:7px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:100px;color:var(--text2);transition:all .3s}
-.day-card .day-tags span:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
-
-/* HORIZONTAL SCROLL GALLERY */
-.gallery{padding:100px 0;overflow:hidden}
-.gallery .section-header{padding:0 48px;margin-bottom:40px}
-.gallery-track{display:flex;gap:16px;padding:0 48px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.gallery-track::-webkit-scrollbar{display:none}
-.gallery-item{flex:0 0 300px;aspect-ratio:4/5;border-radius:var(--radius-lg);overflow:hidden;position:relative;scroll-snap-align:start;transition:all .4s}
-.gallery-item:hover{transform:scale(1.03)}
-.gallery-item img{width:100%;height:100%;object-fit:cover}
-.gallery-item .g-label{position:absolute;bottom:16px;left:16px;right:16px;padding:14px 18px;background:rgba(10,10,10,.7);backdrop-filter:blur(12px);border-radius:12px;border:1px solid rgba(255,255,255,.06)}
-.gallery-item .g-label span{font-size:.68rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;display:block;margin-bottom:4px}
-.gallery-item .g-label h4{font-size:.95rem;font-weight:600}
-
-/* BUDGET - SPLIT LAYOUT */
-.budget{padding:100px 48px;display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1200px;margin:0 auto;align-items:start}
-.budget-left{position:sticky;top:120px}
-.budget-left .label{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px}
-.budget-left h2{font-family:var(--serif);font-size:2.8rem;font-weight:700;margin-bottom:16px;letter-spacing:-1px}
-.budget-left p{color:var(--text2);font-size:.92rem;line-height:1.8;margin-bottom:32px}
-.price-hero{padding:36px;background:linear-gradient(135deg,var(--green-dim),var(--gold-dim));border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-xl);position:relative;overflow:hidden}
-.price-hero::before{content:'';position:absolute;top:-50%;right:-50%;width:100%;height:100%;background:radial-gradient(circle,rgba(226,179,64,.1),transparent);pointer-events:none}
-.price-hero .amount{font-family:var(--serif);font-size:3.5rem;font-weight:800;margin-bottom:4px}
-.price-hero .per{font-size:.85rem;color:var(--text2);margin-bottom:20px}
-.price-hero .breakdown{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.price-hero .bd{padding:12px 16px;background:rgba(255,255,255,.04);border-radius:12px;text-align:center}
-.price-hero .bd .val{font-family:var(--serif);font-size:1.2rem;font-weight:700;display:block}
-.price-hero .bd .lbl{font-size:.68rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
-
-.budget-right{display:flex;flex-direction:column;gap:10px}
-.budget-item{display:flex;align-items:center;gap:14px;padding:18px 20px;background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:var(--radius);transition:all .3s}
-.budget-item:hover{border-color:rgba(226,179,64,.12);background:var(--card2);transform:translateX(4px)}
-.budget-item .bi-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border-radius:10px;font-size:1.2rem;flex-shrink:0}
-.budget-item .bi-info{flex:1}
-.budget-item .bi-name{font-size:.88rem;font-weight:600;margin-bottom:2px}
-.budget-item .bi-note{font-size:.72rem;color:var(--text3)}
-.budget-item .bi-cost{font-size:1rem;font-weight:700;color:var(--green);white-space:nowrap}
-.budget-item .bi-cost.free{color:var(--gold);font-family:var(--serif);font-style:italic}
-
-/* TIPS - BENTO MINI */
-.tips{padding:100px 48px}
-.tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px;margin:0 auto}
-.tip{background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:var(--radius-lg);padding:32px 24px;transition:all .4s;position:relative;overflow:hidden}
-.tip::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--green));transform:scaleX(0);transform-origin:left;transition:transform .4s}
-.tip:hover{border-color:rgba(255,255,255,.08);transform:translateY(-4px)}
-.tip:hover::before{transform:scaleX(1)}
-.tip .emoji{font-size:2rem;margin-bottom:16px;display:block}
-.tip h4{font-size:.95rem;font-weight:700;margin-bottom:8px}
-.tip p{font-size:.82rem;color:var(--text2);line-height:1.8}
-
-/* FOOTER */
-.footer{padding:60px 48px;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between}
-.footer-brand{font-family:var(--serif);font-size:1.3rem;font-weight:700}
-.footer-brand span{color:var(--gold)}
-.footer-links{display:flex;gap:24px}
-.footer-links a{color:var(--text3);font-size:.8rem;text-decoration:none;transition:color .3s}
-.footer-links a:hover{color:var(--gold)}
-.footer-copy{font-size:.75rem;color:var(--text3)}
-
-/* RESPONSIVE */
-@media(max-width:1024px){
-  .budget{grid-template-columns:1fr;gap:40px}
-  .budget-left{position:static}
-  .day-card{grid-template-columns:1fr;min-height:auto}
-  .day-card:nth-child(even){direction:ltr}
-  .day-card .day-image{height:300px}
-}
-@media(max-width:768px){
-  .nav-pills{display:none}
-  .hero-content{padding:0 24px 60px}
-  .hero-title{font-size:3.5rem}
-  .day-card .day-content{padding:32px 24px}
-  .day-card .day-title{font-size:1.5rem}
-  .day-card .day-image{height:240px}
-  .cd-grid{flex-wrap:wrap;gap:10px}
-  .cd-card{min-width:80px;padding:20px 14px}
-  .cd-num{font-size:2.2rem}
-  .tips-grid{grid-template-columns:1fr}
-  .gallery-item{flex:0 0 260px}
-  .itinerary,.gallery,.budget,.tips,.countdown{padding-left:24px;padding-right:24px}
-  .footer{flex-direction:column;gap:16px;text-align:center}
-  .section-header h2{font-size:2rem}
-}
 </style>
 </head>
 <body>
+<!-- CUSTOM CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-dot" id="cursor-dot"></div>
+<div class="cursor-label" id="cursor-label"></div>
+
+<!-- SCROLL PROGRESS -->
+<div class="scroll-progress" id="scroll-progress" style="width:0%"></div>
+
+<!-- AUDIO TOGGLE BUTTON -->
+<div class="audio-btn" id="audio-btn" onclick="toggleAudio()">
+  <svg id="audio-icon-off" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+  <svg id="audio-icon-on" viewBox="0 0 24 24" style="display:none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14"/><path d="M15.54 8.46a5 5 0 010 7.08"/></svg>
+</div>
+
+<!-- SHARE BUTTON -->
+<div class="share-btn" id="share-btn" onclick="shareTrip()">
+  <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+</div>
+<div class="share-toast" id="share-toast">Link copied! 🔗</div>
 
 <!-- NAV -->
 <nav class="nav" id="nav">
   <a href="#" class="nav-logo">Sri<span>Lanka</span></a>
   <div class="nav-pills">
-    <a href="#countdown" class="active">Countdown</a>
+    <a href="#countdown">Countdown</a>
     <a href="#itinerary">Days</a>
-    <a href="#gallery">Gallery</a>
+    <a href="#crew">Crew</a>
+    <a href="#map">Map</a>
     <a href="#budget">Budget</a>
     <a href="#tips">Tips</a>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- HERO WITH VIDEO -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-video">
+    <video autoplay muted loop playsinline poster="hero.jpg">
+      <source src="Video.mp4" type="video/mp4">
+    </video>
+  </div>
   <div class="hero-grain"></div>
   <div class="hero-gradient"></div>
   <div class="hero-blob"></div>
@@ -266,104 +211,226 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:h
     </div>
   </div>
 </section>
+</body>
+</html>
 
-<!-- ITINERARY - STACKED CARDS -->
+<!-- Remaining CSS in a second style block for the new sections -->
+<style>
+/* CREW SECTION */
+.crew{padding:100px 48px;max-width:900px;margin:0 auto}
+.crew-grid{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-top:48px}
+.crew-member{text-align:center;transition:all .4s}
+.crew-member:hover{transform:translateY(-6px)}
+.crew-avatar{width:80px;height:80px;border-radius:50%;background:var(--bg3);border:2px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:2rem;margin:0 auto 12px;transition:border-color .3s;position:relative}
+.crew-avatar::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid transparent;transition:border-color .3s}
+.crew-member:hover .crew-avatar{border-color:var(--gold)}
+.crew-member:hover .crew-avatar::after{border-color:var(--gold-dim)}
+.crew-name{font-size:.85rem;font-weight:600;margin-bottom:2px}
+.crew-role{font-size:.72rem;color:var(--text3)}
+
+/* MAP SECTION */
+.map-section{padding:100px 48px;max-width:1100px;margin:0 auto}
+.map-container{position:relative;background:var(--card);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-xl);overflow:hidden;padding:48px;max-width:800px;margin:0 auto}
+.map-route{display:flex;align-items:center;justify-content:space-between;position:relative;padding:40px 0}
+.map-route::before{content:'';position:absolute;top:50%;left:60px;right:60px;height:2px;background:linear-gradient(90deg,var(--gold),var(--green),var(--gold));opacity:.3}
+.map-stop{text-align:center;position:relative;z-index:2}
+.map-dot{width:48px;height:48px;border-radius:50%;background:var(--bg3);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin:0 auto 12px;transition:all .4s;position:relative}
+.map-dot::after{content:'';position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--gold);opacity:0;animation:pulse-ring 2s infinite;animation-play-state:paused}
+.map-stop:hover .map-dot::after{animation-play-state:running}
+.map-stop:hover .map-dot{background:var(--gold-dim);transform:scale(1.15)}
+.map-city{font-size:.82rem;font-weight:600;margin-bottom:2px}
+.map-day{font-size:.68rem;color:var(--text3)}
+
+/* ITINERARY */
+.itinerary{padding:100px 48px;max-width:1100px;margin:0 auto}
+.section-header{margin-bottom:48px}
+.section-header .label{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px}
+.section-header h2{font-family:var(--serif);font-size:2.8rem;font-weight:700;letter-spacing:-1px}
+.section-header p{color:var(--text2);font-size:.95rem;margin-top:8px}
+.days-stack{display:flex;flex-direction:column;gap:20px}
+.day-card{display:grid;grid-template-columns:1fr 1fr;min-height:420px;border-radius:var(--radius-xl);overflow:hidden;background:var(--card);border:1px solid rgba(255,255,255,.06);transition:all .5s cubic-bezier(.4,0,.2,1);position:relative}
+.day-card:hover{border-color:rgba(226,179,64,.12);box-shadow:0 20px 60px rgba(0,0,0,.3);transform:translateY(-4px)}
+.day-card:nth-child(even){direction:rtl}
+.day-card:nth-child(even)>*{direction:ltr}
+.day-card .day-image{position:relative;overflow:hidden}
+.day-card .day-image img{width:100%;height:100%;object-fit:cover;transition:transform 1s cubic-bezier(.4,0,.2,1)}
+.day-card:hover .day-image img{transform:scale(1.05)}
+.day-card .day-content{padding:48px 44px;display:flex;flex-direction:column;justify-content:center}
+.day-card .day-number{display:inline-flex;align-items:center;gap:8px;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:16px}
+.day-card .day-number::before{content:'';width:24px;height:1px;background:var(--gold)}
+.day-card .day-title{font-family:var(--serif);font-size:2rem;font-weight:700;margin-bottom:16px;line-height:1.2}
+.day-card .day-desc{font-size:.92rem;color:var(--text2);line-height:1.9;margin-bottom:24px}
+.day-card .day-tags{display:flex;flex-wrap:wrap;gap:8px}
+.day-card .day-tags span{font-size:.72rem;padding:7px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:100px;color:var(--text2);transition:all .3s;cursor:none}
+.day-card .day-tags span:hover{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+
+/* GALLERY */
+.gallery{padding:100px 0;overflow:hidden}
+.gallery .section-header{padding:0 48px;margin-bottom:40px}
+.gallery-track{display:flex;gap:16px;padding:0 48px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.gallery-track::-webkit-scrollbar{display:none}
+.gallery-item{flex:0 0 300px;aspect-ratio:4/5;border-radius:var(--radius-lg);overflow:hidden;position:relative;scroll-snap-align:start;transition:all .4s;cursor:none}
+.gallery-item:hover{transform:scale(1.03)}
+.gallery-item img{width:100%;height:100%;object-fit:cover}
+.gallery-item .g-label{position:absolute;bottom:16px;left:16px;right:16px;padding:14px 18px;background:rgba(10,10,10,.7);backdrop-filter:blur(12px);border-radius:12px;border:1px solid rgba(255,255,255,.06)}
+.gallery-item .g-label span{font-size:.68rem;color:var(--gold);letter-spacing:2px;text-transform:uppercase;font-weight:600;display:block;margin-bottom:4px}
+.gallery-item .g-label h4{font-size:.95rem;font-weight:600}
+
+/* BUDGET */
+.budget{padding:100px 48px;display:grid;grid-template-columns:1fr 1fr;gap:60px;max-width:1200px;margin:0 auto;align-items:start}
+.budget-left{position:sticky;top:120px}
+.budget-left .label{font-size:.72rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:8px}
+.budget-left h2{font-family:var(--serif);font-size:2.8rem;font-weight:700;margin-bottom:16px;letter-spacing:-1px}
+.budget-left p{color:var(--text2);font-size:.92rem;line-height:1.8;margin-bottom:32px}
+.price-hero{padding:36px;background:linear-gradient(135deg,var(--green-dim),var(--gold-dim));border:1px solid rgba(255,255,255,.06);border-radius:var(--radius-xl);position:relative;overflow:hidden}
+.price-hero .amount{font-family:var(--serif);font-size:3.5rem;font-weight:800;margin-bottom:4px}
+.price-hero .per{font-size:.85rem;color:var(--text2);margin-bottom:20px}
+.price-hero .breakdown{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.price-hero .bd{padding:12px 16px;background:rgba(255,255,255,.04);border-radius:12px;text-align:center}
+.price-hero .bd .val{font-family:var(--serif);font-size:1.2rem;font-weight:700;display:block}
+.price-hero .bd .lbl{font-size:.68rem;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.budget-right{display:flex;flex-direction:column;gap:10px}
+.budget-item{display:flex;align-items:center;gap:14px;padding:18px 20px;background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:var(--radius);transition:all .3s;cursor:none}
+.budget-item:hover{border-color:rgba(226,179,64,.12);background:var(--card2);transform:translateX(4px)}
+.budget-item .bi-icon{width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:var(--bg3);border-radius:10px;font-size:1.2rem;flex-shrink:0}
+.budget-item .bi-info{flex:1}
+.budget-item .bi-name{font-size:.88rem;font-weight:600;margin-bottom:2px}
+.budget-item .bi-note{font-size:.72rem;color:var(--text3)}
+.budget-item .bi-cost{font-size:1rem;font-weight:700;color:var(--green);white-space:nowrap}
+.budget-item .bi-cost.free{color:var(--gold);font-family:var(--serif);font-style:italic}
+
+/* TIPS WITH LOTTIE */
+.tips{padding:100px 48px}
+.tips-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:1000px;margin:0 auto}
+.tip{background:var(--card);border:1px solid rgba(255,255,255,.04);border-radius:var(--radius-lg);padding:32px 24px;text-align:center;transition:all .4s;position:relative;overflow:hidden;cursor:none}
+.tip::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--green));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.tip:hover{border-color:rgba(255,255,255,.08);transform:translateY(-4px)}
+.tip:hover::before{transform:scaleX(1)}
+.tip .tip-icon{font-size:2.4rem;display:block;margin-bottom:16px;width:60px;height:60px;line-height:60px;text-align:center;background:var(--bg3);border-radius:16px;margin-left:auto;margin-right:auto;transition:all .3s}
+.tip:hover .tip-icon{background:var(--gold-dim);transform:scale(1.1) rotate(-3deg)}
+.tip h4{font-size:.95rem;font-weight:700;margin-bottom:8px}
+.tip p{font-size:.82rem;color:var(--text2);line-height:1.8}
+
+/* FOOTER */
+.footer{padding:60px 48px;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between}
+.footer-brand{font-family:var(--serif);font-size:1.3rem;font-weight:700}
+.footer-brand span{color:var(--gold)}
+.footer-links{display:flex;gap:24px}
+.footer-links a{color:var(--text3);font-size:.8rem;text-decoration:none;transition:color .3s;cursor:none}
+.footer-links a:hover{color:var(--gold)}
+.footer-copy{font-size:.75rem;color:var(--text3)}
+
+/* MOBILE BOTTOM NAV */
+.mobile-nav{display:none;position:fixed;bottom:0;left:0;right:0;z-index:998;background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.06);padding:10px 16px;justify-content:space-around}
+.mobile-nav a{display:flex;flex-direction:column;align-items:center;gap:4px;text-decoration:none;color:var(--text3);font-size:.62rem;letter-spacing:.5px;transition:color .3s;padding:6px}
+.mobile-nav a:hover,.mobile-nav a.active{color:var(--gold)}
+.mobile-nav a svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5}
+
+/* PRINT */
+@media print{
+  body{background:#fff;color:#111;cursor:auto}
+  .nav,.share-btn,.share-toast,.scroll-progress,.cursor,.cursor-dot,.cursor-label,.mobile-nav,.ticker-wrap,.hero-video video,.hero-blob,.hero-grain,.countdown-bg{display:none!important}
+  .hero{height:auto;padding:40px;background:#fff}
+  .hero-gradient{display:none}
+  .hero-content{color:#111;padding:0}
+  .hero-title,.hero-title .accent{color:#111;-webkit-text-fill-color:#111}
+  .hero-sub,.hero-chip{color:#333}
+  section{padding:40px 20px!important;break-inside:avoid}
+  .day-card{border:1px solid #ddd;box-shadow:none;page-break-inside:avoid}
+  .day-card .day-content{padding:24px}
+  .budget{grid-template-columns:1fr}
+  .budget-left{position:static}
+  .tips-grid{grid-template-columns:1fr 1fr}
+  .gallery,.map-section{display:none}
+  *{transition:none!important;animation:none!important}
+}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .budget{grid-template-columns:1fr;gap:40px}
+  .budget-left{position:static}
+  .day-card{grid-template-columns:1fr;min-height:auto}
+  .day-card:nth-child(even){direction:ltr}
+  .day-card .day-image{height:300px}
+}
+@media(max-width:768px){
+  body{cursor:auto;padding-bottom:70px}
+  .cursor,.cursor-dot,.cursor-label{display:none}
+  .nav-pills{display:none}
+  .mobile-nav{display:flex}
+  .hero-content{padding:0 24px 60px}
+  .hero-title{font-size:3.5rem}
+  .day-card .day-content{padding:32px 24px}
+  .day-card .day-title{font-size:1.5rem}
+  .day-card .day-image{height:240px}
+  .cd-grid{flex-wrap:wrap;gap:10px}
+  .cd-card{min-width:80px;padding:20px 14px}
+  .cd-num{font-size:2.2rem}
+  .tips-grid{grid-template-columns:1fr}
+  .gallery-item{flex:0 0 260px}
+  .itinerary,.gallery,.budget,.tips,.countdown,.crew,.map-section{padding-left:24px;padding-right:24px}
+  .footer{flex-direction:column;gap:16px;text-align:center}
+  .section-header h2{font-size:2rem}
+  .map-route{flex-wrap:wrap;gap:20px;justify-content:center}
+  .map-route::before{display:none}
+  .share-btn{bottom:80px}
+  .audio-btn{bottom:140px}
+  .crew-grid{gap:16px}
+}
+</style>
+
+<!-- CREW SECTION -->
+<section class="crew" id="crew">
+  <div class="section-header" style="text-align:center">
+    <div class="label">The Squad</div>
+    <h2>6 Friends, 1 Adventure</h2>
+  </div>
+  <div class="crew-grid">
+    <div class="crew-member"><div class="crew-avatar">🧑‍💻</div><div class="crew-name">Abhinav</div><div class="crew-role">Trip Planner</div></div>
+    <div class="crew-member"><div class="crew-avatar">🎒</div><div class="crew-name">Deepak</div><div class="crew-role">Navigator</div></div>
+    <div class="crew-member"><div class="crew-avatar">📸</div><div class="crew-name">Keerthana</div><div class="crew-role">Photographer</div></div>
+    <div class="crew-member"><div class="crew-avatar">🎵</div><div class="crew-name">Yuvaraj</div><div class="crew-role">DJ / Vibes</div></div>
+    <div class="crew-member"><div class="crew-avatar">🍜</div><div class="crew-name">Sharmila</div><div class="crew-role">Food Scout</div></div>
+    <div class="crew-member"><div class="crew-avatar">🗺️</div><div class="crew-name">Saranya</div><div class="crew-role">Adventure Lead</div></div>
+  </div>
+</section>
+
+<!-- MAP SECTION -->
+<section class="map-section" id="map">
+  <div class="section-header" style="text-align:center;max-width:600px;margin:0 auto 48px">
+    <div class="label">The Route</div>
+    <h2>Our Journey Across the Island</h2>
+  </div>
+  <div class="map-container">
+    <div class="map-route">
+      <div class="map-stop"><div class="map-dot">🏙️</div><div class="map-city">Colombo</div><div class="map-day">Day 1</div></div>
+      <div class="map-stop"><div class="map-dot">🏔️</div><div class="map-city">Kandy</div><div class="map-day">Day 2</div></div>
+      <div class="map-stop"><div class="map-dot">🌉</div><div class="map-city">Ella</div><div class="map-day">Day 3</div></div>
+      <div class="map-stop"><div class="map-dot">🏖️</div><div class="map-city">Mirissa</div><div class="map-day">Day 4</div></div>
+      <div class="map-stop"><div class="map-dot">🏰</div><div class="map-city">Galle</div><div class="map-day">Day 5</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ITINERARY -->
 <section class="itinerary" id="itinerary">
   <div class="section-header">
     <div class="label">The Itinerary</div>
     <h2>5 Days, Zero Boring Moments</h2>
     <p>Each day is a different vibe — city, mountains, coast.</p>
   </div>
-
   <div class="days-stack">
-    <!-- Day 1 -->
-    <div class="day-card">
-      <div class="day-image"><img src="colombo.jpg" alt="Colombo Lotus Tower" loading="lazy"></div>
-      <div class="day-content">
-        <div class="day-number">Day 01 · Oct 21</div>
-        <h3 class="day-title">Cyberpunk Colombo</h3>
-        <p class="day-desc">Start your trip in the capital city. Head straight to the Lotus Tower — the tallest structure in South Asia with a 360-degree observation deck, revolving restaurant, and digital exhibition halls. Later, hit Galle Face Green at sunset for "Isso Wade" (prawn crackers) and street food culture.</p>
-        <div class="day-tags">
-          <span>🗼 Lotus Tower</span>
-          <span>🌅 Galle Face Green</span>
-          <span>🍤 Street Food</span>
-          <span>📸 360° Views</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Day 2 -->
-    <div class="day-card">
-      <div class="day-image"><img src="train.jpg" alt="Scenic Train" loading="lazy"></div>
-      <div class="day-content">
-        <div class="day-number">Day 02 · Oct 22</div>
-        <h3 class="day-title">World's Most Scenic Train</h3>
-        <p class="day-desc">Leave the city early for Kandy, then board the famous Kandy to Ella train. Sit back and watch tea estates, misty valleys, and waterfalls roll by. Open the windows, play some music, and take those iconic doorway photos while the train winds through the mountains.</p>
-        <div class="day-tags">
-          <span>🚂 Scenic Train</span>
-          <span>🍃 Tea Estates</span>
-          <span>🌫️ Misty Valleys</span>
-          <span>🚪 Doorway Photos</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Day 3 -->
-    <div class="day-card">
-      <div class="day-image"><img src="nine-arch.jpg" alt="Nine Arch Bridge" loading="lazy"></div>
-      <div class="day-content">
-        <div class="day-number">Day 03 · Oct 23</div>
-        <h3 class="day-title">Nine Arch Bridge & Infinity Pools</h3>
-        <p class="day-desc">Start your morning at the Nine Arch Bridge — a massive stone viaduct hidden in tea trees. Just 2 minutes walk to stand above the tracks. In the afternoon, head to Ravana Pool Club — infinity pools overlooking the valley. Zero effort, high-tier views.</p>
-        <div class="day-tags">
-          <span>🌉 Nine Arch Bridge</span>
-          <span>🛺 Tuk-Tuk</span>
-          <span>♾️ Infinity Pool</span>
-          <span>🏔️ Valley Views</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Day 4 -->
-    <div class="day-card">
-      <div class="day-image"><img src="mirissa.jpg" alt="Coconut Tree Hill Mirissa" loading="lazy"></div>
-      <div class="day-content">
-        <div class="day-number">Day 04 · Oct 24</div>
-        <h3 class="day-title">Southern Coast & The Red Cliffs</h3>
-        <p class="day-desc">Head down from the mountains to the southern coast. Your destination is Coconut Tree Hill in Mirissa — a unique red-soil dome covered in tall palms jutting into the ocean. Go around 5 PM for perfect golden hour. Evening at a beach club with feet in the sand.</p>
-        <div class="day-tags">
-          <span>🌴 Coconut Tree Hill</span>
-          <span>🏖️ Mirissa Beach</span>
-          <span>🌅 Golden Hour</span>
-          <span>🍽️ Beach Dinner</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Day 5 -->
-    <div class="day-card">
-      <div class="day-image"><img src="galle.jpg" alt="Galle Fort" loading="lazy"></div>
-      <div class="day-content">
-        <div class="day-number">Day 05 · Oct 25</div>
-        <h3 class="day-title">Galle Fort & Mangrove Safari</h3>
-        <p class="day-desc">Stop at Galle Fort — a UNESCO World Heritage site that feels like a European town. Walk the ramparts near the lighthouse. Finish at the Madu River for a boat safari through mangrove tunnels, a cinnamon island visit, and a fish foot massage on a floating deck.</p>
-        <div class="day-tags">
-          <span>🏰 Galle Fort</span>
-          <span>🚤 Madu River</span>
-          <span>🌿 Mangroves</span>
-          <span>✈️ Airport</span>
-        </div>
-      </div>
-    </div>
+    <div class="day-card"><div class="day-image"><img src="colombo.jpg" alt="Colombo" loading="lazy"></div><div class="day-content"><div class="day-number">Day 01 · Oct 21</div><h3 class="day-title">Cyberpunk Colombo</h3><p class="day-desc">Start your trip in the capital city. Head straight to the Lotus Tower — the tallest structure in South Asia with a 360-degree observation deck, revolving restaurant, and digital exhibition halls. Later, hit Galle Face Green at sunset for street food culture.</p><div class="day-tags"><span>🗼 Lotus Tower</span><span>🌅 Galle Face</span><span>🍤 Street Food</span><span>📸 360° Views</span></div></div></div>
+    <div class="day-card"><div class="day-image"><img src="train.jpg" alt="Train" loading="lazy"></div><div class="day-content"><div class="day-number">Day 02 · Oct 22</div><h3 class="day-title">World's Most Scenic Train</h3><p class="day-desc">Board the famous Kandy to Ella train. Watch tea estates, misty valleys, and waterfalls roll by. Open the windows, play some music, and take those iconic doorway photos while the train winds through the mountains.</p><div class="day-tags"><span>🚂 Scenic Train</span><span>🍃 Tea Estates</span><span>🌫️ Misty Valleys</span><span>🚪 Doorway Photos</span></div></div></div>
+    <div class="day-card"><div class="day-image"><img src="nine-arch.jpg" alt="Nine Arch Bridge" loading="lazy"></div><div class="day-content"><div class="day-number">Day 03 · Oct 23</div><h3 class="day-title">Nine Arch Bridge & Infinity Pools</h3><p class="day-desc">Start at the Nine Arch Bridge — a massive stone viaduct hidden in tea trees. Just 2 minutes walk. Afternoon at Ravana Pool Club — infinity pools overlooking the valley. Zero effort, high-tier views.</p><div class="day-tags"><span>🌉 Nine Arch</span><span>🛺 Tuk-Tuk</span><span>♾️ Infinity Pool</span><span>🏔️ Valley Views</span></div></div></div>
+    <div class="day-card"><div class="day-image"><img src="mirissa.jpg" alt="Mirissa" loading="lazy"></div><div class="day-content"><div class="day-number">Day 04 · Oct 24</div><h3 class="day-title">Southern Coast & Red Cliffs</h3><p class="day-desc">Head to Coconut Tree Hill in Mirissa — red-soil dome covered in tall palms jutting into the ocean. Go at 5 PM for golden hour. Evening at a beach club with feet in the sand.</p><div class="day-tags"><span>🌴 Coconut Hill</span><span>🏖️ Mirissa</span><span>🌅 Golden Hour</span><span>🍽️ Beach Dinner</span></div></div></div>
+    <div class="day-card"><div class="day-image"><img src="galle.jpg" alt="Galle Fort" loading="lazy"></div><div class="day-content"><div class="day-number">Day 05 · Oct 25</div><h3 class="day-title">Galle Fort & Mangrove Safari</h3><p class="day-desc">Galle Fort — UNESCO World Heritage site. Walk the ramparts. Finish at Madu River for a boat safari through mangrove tunnels, cinnamon island, and fish foot massage on a floating deck.</p><div class="day-tags"><span>🏰 Galle Fort</span><span>🚤 Madu River</span><span>🌿 Mangroves</span><span>✈️ Airport</span></div></div></div>
   </div>
 </section>
 
 <!-- GALLERY -->
 <section class="gallery" id="gallery">
-  <div class="section-header">
-    <div class="label">Highlights</div>
-    <h2>The Spots That Define This Trip</h2>
-  </div>
+  <div class="section-header"><div class="label">Highlights</div><h2>The Spots That Define This Trip</h2></div>
   <div class="gallery-track">
     <div class="gallery-item"><img src="colombo.jpg" alt="Lotus Tower" loading="lazy"><div class="g-label"><span>Colombo</span><h4>Lotus Tower</h4></div></div>
     <div class="gallery-item"><img src="train.jpg" alt="Train" loading="lazy"><div class="g-label"><span>Kandy → Ella</span><h4>Scenic Railway</h4></div></div>
@@ -373,24 +440,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:h
   </div>
 </section>
 
-<!-- BUDGET - SPLIT -->
+<!-- BUDGET -->
 <section class="budget" id="budget">
-  <div class="budget-left">
-    <div class="label">Investment</div>
-    <h2>Budget Breakdown</h2>
-    <p>Group of 6 · 5 days · Per person estimate. Flights fixed at ₹20K return from Chennai.</p>
-    <div class="price-hero">
-      <div class="amount">₹40,000</div>
-      <div class="per">per person · all inclusive</div>
-      <div class="breakdown">
-        <div class="bd"><span class="val">₹20K</span><span class="lbl">Flights</span></div>
-        <div class="bd"><span class="val">₹20K</span><span class="lbl">On-Ground</span></div>
-        <div class="bd"><span class="val">6</span><span class="lbl">Travelers</span></div>
-        <div class="bd"><span class="val">₹8K</span><span class="lbl">Per Day</span></div>
-      </div>
-    </div>
-  </div>
-
+  <div class="budget-left"><div class="label">Investment</div><h2>Budget Breakdown</h2><p>Group of 6 · 5 days · Per person. Flights ₹20K return from Chennai.</p><div class="price-hero"><div class="amount">₹40,000</div><div class="per">per person · all inclusive</div><div class="breakdown"><div class="bd"><span class="val">₹20K</span><span class="lbl">Flights</span></div><div class="bd"><span class="val">₹20K</span><span class="lbl">On-Ground</span></div><div class="bd"><span class="val">6</span><span class="lbl">Travelers</span></div><div class="bd"><span class="val">₹8K</span><span class="lbl">Per Day</span></div></div></div></div>
   <div class="budget-right">
     <div class="budget-item"><div class="bi-icon">✈️</div><div class="bi-info"><div class="bi-name">Flights (Return)</div><div class="bi-note">Chennai → Colombo</div></div><div class="bi-cost">₹20,000</div></div>
     <div class="budget-item"><div class="bi-icon">🚐</div><div class="bi-info"><div class="bi-name">Private Van + Driver</div><div class="bi-note">5 days · $55/day ÷ 6</div></div><div class="bi-cost">₹3,800</div></div>
@@ -409,49 +461,85 @@ body{font-family:var(--sans);background:var(--bg);color:var(--text);overflow-x:h
 
 <!-- TIPS -->
 <section class="tips" id="tips">
-  <div class="section-header" style="text-align:center;max-width:600px;margin:0 auto 48px">
-    <div class="label">Good to Know</div>
-    <h2>Travel Tips</h2>
-  </div>
+  <div class="section-header" style="text-align:center;max-width:600px;margin:0 auto 48px"><div class="label">Good to Know</div><h2>Travel Tips</h2></div>
   <div class="tips-grid">
-    <div class="tip"><span class="emoji">🌧️</span><h4>October Weather</h4><p>Expect afternoon rain. Private van means you just wait it out or move on.</p></div>
-    <div class="tip"><span class="emoji">🎫</span><h4>Book Train Early</h4><p>Observation Class sells out fast. Book weeks in advance online.</p></div>
-    <div class="tip"><span class="emoji">📸</span><h4>Golden Hour</h4><p>Coconut Hill at 5 PM. Nine Arch when a train passes. Galle Fort at sunrise.</p></div>
-    <div class="tip"><span class="emoji">💵</span><h4>Currency</h4><p>1 INR = 3.45 LKR. Cards in cities, cash for tuk-tuks. No UPI here.</p></div>
-    <div class="tip"><span class="emoji">📱</span><h4>Get a SIM</h4><p>Dialog at the airport. ~$5 for 10GB. Essential for maps.</p></div>
-    <div class="tip"><span class="emoji">🛺</span><h4>Tuk-Tuks</h4><p>Negotiate first or use PickMe app — it's Uber for Sri Lanka.</p></div>
+    <div class="tip"><span class="tip-icon">🌧️</span><h4>October Weather</h4><p>Expect afternoon rain. Private van means you just wait it out.</p></div>
+    <div class="tip"><span class="tip-icon">🎫</span><h4>Book Train Early</h4><p>Observation Class sells out fast. Book weeks in advance.</p></div>
+    <div class="tip"><span class="tip-icon">📸</span><h4>Golden Hour</h4><p>Coconut Hill at 5 PM. Nine Arch when a train passes.</p></div>
+    <div class="tip"><span class="tip-icon">💵</span><h4>Currency</h4><p>1 INR = 3.45 LKR. Cards in cities, cash for tuk-tuks.</p></div>
+    <div class="tip"><span class="tip-icon">📱</span><h4>Get a SIM</h4><p>Dialog at the airport. ~$5 for 10GB. Essential for maps.</p></div>
+    <div class="tip"><span class="tip-icon">🛺</span><h4>Tuk-Tuks</h4><p>Negotiate first or use PickMe app — Uber for Sri Lanka.</p></div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-brand">Sri<span>Lanka</span> '26</div>
-  <div class="footer-links">
-    <a href="#countdown">Countdown</a>
-    <a href="#itinerary">Itinerary</a>
-    <a href="#budget">Budget</a>
-    <a href="#tips">Tips</a>
-  </div>
+  <div class="footer-links"><a href="#countdown">Countdown</a><a href="#itinerary">Itinerary</a><a href="#budget">Budget</a><a href="#tips">Tips</a></div>
   <div class="footer-copy">Oct 21–25, 2026 · Group of 6</div>
 </footer>
 
+<!-- MOBILE BOTTOM NAV -->
+<nav class="mobile-nav">
+  <a href="#countdown"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Timer</a>
+  <a href="#itinerary"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Days</a>
+  <a href="#map"><svg viewBox="0 0 24 24"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/></svg>Map</a>
+  <a href="#budget"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Budget</a>
+  <a href="#tips"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>Tips</a>
+</nav>
+
 <!-- JS -->
 <script>
-// Nav
+// CUSTOM CURSOR
+const cursor=document.getElementById('cursor');
+const cursorDot=document.getElementById('cursor-dot');
+const cursorLabel=document.getElementById('cursor-label');
+let mouseX=0,mouseY=0,curX=0,curY=0;
+
+document.addEventListener('mousemove',e=>{mouseX=e.clientX;mouseY=e.clientY;cursorDot.style.left=mouseX+'px';cursorDot.style.top=mouseY+'px'});
+function animateCursor(){curX+=(mouseX-curX)*.12;curY+=(mouseY-curY)*.12;cursor.style.left=curX+'px';cursor.style.top=curY+'px';cursorLabel.style.left=mouseX+'px';cursorLabel.style.top=mouseY+'px';requestAnimationFrame(animateCursor)}
+animateCursor();
+
+// Cursor hover states
+document.querySelectorAll('.day-card,.gallery-item,.bento-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.classList.add('hover');cursorLabel.textContent='Explore';cursorLabel.classList.add('show')});
+  el.addEventListener('mouseleave',()=>{cursor.classList.remove('hover');cursorLabel.classList.remove('show')});
+});
+document.querySelectorAll('a,button,.hero-chip,.budget-item,.tip,.share-btn').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.classList.add('hover');cursorLabel.classList.remove('show')});
+  el.addEventListener('mouseleave',()=>{cursor.classList.remove('hover')});
+});
+
+// SCROLL PROGRESS BAR
+const progressBar=document.getElementById('scroll-progress');
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement.scrollHeight-innerHeight;
+  const pct=(scrollY/h)*100;
+  progressBar.style.width=pct+'%';
+});
+
+// NAV
 const nav=document.getElementById('nav');
 window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
 
-// Scroll reveal
+// SMOOTH SCROLL REVEAL
 const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0) scale(1)'}});
-},{threshold:.1});
-document.querySelectorAll('.day-card,.tip,.budget-item,.price-hero').forEach(el=>{
-  el.style.opacity='0';el.style.transform='translateY(24px)';
-  el.style.transition='opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)';
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('revealed');io.unobserve(e.target)}
+  });
+},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+
+document.querySelectorAll('.day-card,.tip,.budget-item,.price-hero,.crew-member,.map-stop,.gallery-item').forEach((el,i)=>{
+  el.style.opacity='0';el.style.transform='translateY(28px)';
+  el.style.transition=`opacity .7s cubic-bezier(.4,0,.2,1) ${i%6*.08}s, transform .7s cubic-bezier(.4,0,.2,1) ${i%6*.08}s`;
   io.observe(el);
 });
+// Add revealed class styles
+const style=document.createElement('style');
+style.textContent='.revealed{opacity:1!important;transform:translateY(0)!important}';
+document.head.appendChild(style);
 
-// Gallery auto-scroll
+// GALLERY AUTO-SCROLL
 const gTrack=document.querySelector('.gallery-track');
 let gPaused=false;
 gTrack.addEventListener('mouseenter',()=>gPaused=true);
@@ -465,19 +553,13 @@ setInterval(()=>{
   else gTrack.scrollBy({left:320,behavior:'smooth'});
 },3500);
 
-// Countdown
+// COUNTDOWN
 const tripDate=new Date('2026-10-21T00:00:00+05:30');
 const startDate=new Date('2026-05-07T00:00:00+05:30');
-const totalDays=Math.ceil((tripDate-startDate)/(864e5));
-
+const totalDays=Math.ceil((tripDate-startDate)/864e5);
 function tick(){
   const now=new Date(),diff=tripDate-now;
-  if(diff<=0){
-    document.querySelectorAll('.cd-num').forEach(e=>e.textContent='🌴');
-    document.getElementById('cd-text').textContent='You\'re there! 🎉';
-    document.getElementById('cd-fill').style.width='100%';
-    return;
-  }
+  if(diff<=0){document.querySelectorAll('.cd-num').forEach(e=>e.textContent='🌴');document.getElementById('cd-text').textContent="You're there! 🎉";document.getElementById('cd-fill').style.width='100%';return}
   const d=Math.floor(diff/864e5),h=Math.floor(diff%864e5/36e5),m=Math.floor(diff%36e5/6e4),s=Math.floor(diff%6e4/1e3);
   const els={days:d,hours:h,mins:m,secs:s};
   Object.entries(els).forEach(([k,v])=>{
@@ -492,29 +574,58 @@ function tick(){
 }
 tick();setInterval(tick,1000);
 
-// Parallax hero
+// PARALLAX HERO
 window.addEventListener('scroll',()=>{
   const s=scrollY;
   if(s<innerHeight){
-    document.querySelector('.hero-bg').style.transform='scale(1.1) translateY('+s*.25+'px)';
+    const heroVideo=document.querySelector('.hero-video');
+    if(heroVideo)heroVideo.style.transform='translateY('+s*.2+'px)';
     document.querySelector('.hero-content').style.transform='translateY('+s*.1+'px)';
     document.querySelector('.hero-content').style.opacity=1-s/innerHeight;
   }
 });
 
-// Stagger budget items
-const budgetIO=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{
-    if(e.isIntersecting){
-      e.target.querySelectorAll('.budget-item').forEach((item,i)=>{
-        setTimeout(()=>{item.style.opacity='1';item.style.transform='translateY(0)'},i*60);
-      });
-      budgetIO.unobserve(e.target);
-    }
-  });
-},{threshold:.1});
-const br=document.querySelector('.budget-right');
-if(br){br.querySelectorAll('.budget-item').forEach(i=>{i.style.opacity='0';i.style.transform='translateY(16px)';i.style.transition='all .4s ease'});budgetIO.observe(br)}
+// SHARE BUTTON
+function shareTrip(){
+  const url=window.location.href;
+  if(navigator.share){
+    navigator.share({title:'Sri Lanka Trip · Oct 2026',text:'Check out our Sri Lanka trip plan!',url:url});
+  }else{
+    navigator.clipboard.writeText(url).then(()=>{
+      const toast=document.getElementById('share-toast');
+      toast.classList.add('show');
+      setTimeout(()=>toast.classList.remove('show'),2500);
+    });
+  }
+}
+
+// AUDIO TOGGLE
+function toggleAudio(){
+  const video=document.querySelector('.hero-video video');
+  const btn=document.getElementById('audio-btn');
+  const iconOff=document.getElementById('audio-icon-off');
+  const iconOn=document.getElementById('audio-icon-on');
+  if(video.muted){
+    video.muted=false;
+    btn.classList.add('playing');
+    iconOff.style.display='none';
+    iconOn.style.display='block';
+  }else{
+    video.muted=true;
+    btn.classList.remove('playing');
+    iconOff.style.display='block';
+    iconOn.style.display='none';
+  }
+}
+
+// MOBILE NAV ACTIVE STATE
+const sections=document.querySelectorAll('section[id]');
+const mobileLinks=document.querySelectorAll('.mobile-nav a');
+window.addEventListener('scroll',()=>{
+  let current='';
+  sections.forEach(s=>{if(scrollY>=s.offsetTop-200)current=s.id});
+  mobileLinks.forEach(a=>{a.classList.toggle('active',a.getAttribute('href')==='#'+current)});
+});
 </script>
 </body>
 </html>
